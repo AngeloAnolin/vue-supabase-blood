@@ -4,7 +4,9 @@ A tool to record your blood sugar reading. Built with Vue 3, Vite and Supabase.
 # Running
 Fork or clone this repository.
 In the command line, navigate to the project source and run the following commands:
+
 `npm install`
+
 `npm run dev`
 
 ## Recommended IDE Setup
