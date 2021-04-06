@@ -109,7 +109,9 @@
   }
 </script>
 
-<style scoped>
+<style>
+  @import "../node_modules/font-awesome/css/font-awesome.css";
+
   .hero.has-background {
     position: relative;
     overflow: hidden;

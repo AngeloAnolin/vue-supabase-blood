@@ -1,6 +1,6 @@
 {
   "name": "vue-supabase-blood",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -12,6 +12,7 @@
     "core-js": "^3.9.1",
     "date-fns": "^2.19.0",
     "dotenv": "^8.2.0",
+    "font-awesome": "^4.7.0",
     "sass": "^1.32.8",
     "sweetalert2": "^10.15.7",
     "vue": "^3.0.5"

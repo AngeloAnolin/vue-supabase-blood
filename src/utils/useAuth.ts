@@ -5,10 +5,6 @@ import Swal from 'sweetalert2'
 
 const userSession = ref<Session | null>(null)
 
-/*
- * Handles user login via email + password into a supabase session.
- * If not password is empty, it will send a magic link to the users email address.
- */
 async function handleLogin(credentials: Credentials) {
   try {
     const { error, user } = await supabase.auth.signIn({
@@ -43,9 +39,6 @@ async function handleLogin(credentials: Credentials) {
   }
 }
 
-/*
- * Handles signup provided a valid credentials object.
- */
 async function handleSignup(credentials: Credentials) {
   try {
     const { email, password } = credentials
@@ -72,8 +65,8 @@ async function handleSignup(credentials: Credentials) {
     
     Swal.fire({
       icon: 'success',
-      title: 'Sign Up',
-      text: 'Signup successful. Please check your email to confirmation your account.',
+      title: 'Blood Sugar',
+      text: 'Signup successful. Please check your email to confirm your account.',
       footer: ``
     })
   } catch (err) {
@@ -86,47 +79,61 @@ async function handleSignup(credentials: Credentials) {
   }
 }
 
-/* Handles signup via Third Pary Login. (https://supabase.io/docs/guides/auth#third-party-logins) */
+async function handleMagicLink(credentials: Credentials) {
+  try {
+    const { error, user } = await supabase.auth.signIn({
+      email: credentials.email,
+      password: credentials.password,
+    })
+
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Blood Sugar',
+        text: 'An error occured obtaining the magic link. Please try again.',
+        footer: `${error.message}`
+      })
+    }
+
+    if (!error && !user) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Blood Sugar',
+        text: 'Kindly check your email to sign in to the application.',
+        footer: ``
+      })
+    }
+
+  } catch (err) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Blood Sugar',
+      text: 'An error occured generating the magic link. Please try again.',
+      footer: `${err.message}`
+    })
+  }
+}
+
 async function handleOAuthLogin(provider: Provider) {
   const { error } = await supabase.auth.signIn({ provider })
   if (error) console.error('Error: ', error.message)
 }
 
-/**
- * Handles password reset. Will send an email to the given email address.
- */
-async function handlePasswordReset() {
-  // const email = prompt('Please enter your email:')
-
-  const { value: email } = await Swal.fire({
-    title: 'Input email address',
-    input: 'email',
-    inputLabel: 'Your email address',
-    inputPlaceholder: 'Enter your email address'
-  })
-
-  if (!email) {
+async function handlePasswordReset(email: string) {
+  const { error } = await supabase.auth.api.resetPasswordForEmail(email)
+  if (error) {
     Swal.fire({
-      icon: 'info',
+      icon: 'error',
       title: 'Reset Password',
-      text: 'Please enter your email address.',
+      text: 'An error occured processing your password reset request. Please try again.',
+      footer: `${error.message}`
     })
   } else {
-    const { error } = await supabase.auth.api.resetPasswordForEmail(email)
-    if (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Reset Password',
-        text: 'An error occured processing your password reset request. Please try again.',
-        footer: `${error.message}`
-      })
-    } else {
-      Swal.fire({
-        icon: 'success',
-        title: 'Reset Password',
-        text: 'Password recovery has been sent to your email.',
-      })
-    }
+    Swal.fire({
+      icon: 'success',
+      title: 'Reset Password',
+      text: 'Password recovery has been sent to your email.',
+    })
   }
 }
 
@@ -144,7 +151,6 @@ async function handleUpdateUser(credentials: Credentials) {
   }
 }
 
-/* Handles logging a user out of a superbase session */
 async function handleLogout() {
   try {
     const { error } = await supabase.auth.signOut()
@@ -204,6 +210,7 @@ async function handleRefreshSession () {
 export {
   userSession,
   handleLogin,
+  handleMagicLink,
   handleOAuthLogin,
   handleSignup,
   handleLogout,
