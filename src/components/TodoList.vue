@@ -49,7 +49,7 @@
           <div class="level">
             <div class="level-item has-text-centered">
               <div>
-                <p class="heading has-text-white">Last Week's Average</p>
+                <p class="heading has-text-white">This Week's Average</p>
                 <p>
                   <h1 class="title">{{ showLastWeekAverage }}</h1>
                 </p>
@@ -91,7 +91,7 @@
           <div class="level">
             <div class="level-item has-text-centered">
               <div>
-                <p class="heading has-text-white">Average To Date</p>
+                <p class="heading has-text-white">All Time Average</p>
                 <p>
                   <h1 class="title">{{ showAllAverage }}</h1>
                 </p>
@@ -285,19 +285,19 @@
     computed: {
       showTodayAverage (): string {
         return (this.uomSelectedToday==='mmol/L') 
-        ? this.todayAverageObj.molar.toFixed(2)
+        ? this.todayAverageObj.molar.toFixed(1)
         : Math.round(this.todayAverageObj.mass).toFixed(0)
       },
 
       showLastWeekAverage (): string {
         return (this.uomSelectedLastWeek==='mmol/L') 
-        ? this.lastWeekAverageObj.molar.toFixed(2)
+        ? this.lastWeekAverageObj.molar.toFixed(1)
         : Math.round(this.lastWeekAverageObj.mass).toFixed(0)
       },
 
       showAllAverage (): string {
         return (this.uomSelectedAll==='mmol/L') 
-        ? this.allTimeAverageObj.molar.toFixed(2)
+        ? this.allTimeAverageObj.molar.toFixed(1)
         : Math.round(this.allTimeAverageObj.mass).toFixed(0)
       }
     },

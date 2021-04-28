@@ -11,7 +11,7 @@
         <div class="level">
           <div class="level-item">
             <span class="is-size-1-desktop is-size-3-touch mr-2">
-              {{ todo.reading }}
+              {{ todo.reading.toFixed(1) }}
             </span>
             <span class="is-size-2-desktop is-size-4-touch">{{ todo.uom }}</span>
           </div>

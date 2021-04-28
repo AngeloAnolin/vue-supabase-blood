@@ -245,21 +245,17 @@ async function calculateTodoSummaries () {
     })
   })
 
-  // const lastWeekAllReadings = lastWeekTodos.map(x => {
-  //   return x.reading
-  // })
-
   const lastWeekAllReadingsMolar = lastWeekTodos.map(x => {
     return (x.uom === 'mg/dL') ? (x.reading/17) : x.reading
   })
 
-  const lastWeekAllReadingsMolarAvg = (lastWeekAllReadingsMolar.reduce((a, b) => a + b, 0)/lastWeekTodos.length)
-  
+  const lastWeekAllReadingsMolarAvg = (lastWeekTodos.length > 0) ? (lastWeekAllReadingsMolar.reduce((a, b) => a + b, 0)/lastWeekTodos.length) : 0
+
   const lastWeekAllReadingsMass = lastWeekTodos.map(x => {
     return (x.uom === 'mmol/L') ? (x.reading * 17) : x.reading
   })
 
-  const lastWeekAllReadingsMassAvg = (lastWeekAllReadingsMass.reduce((a, b) => a + b, 0)/lastWeekTodos.length)
+  const lastWeekAllReadingsMassAvg = (lastWeekTodos.length > 0) ? (lastWeekAllReadingsMass.reduce((a, b) => a + b, 0)/lastWeekTodos.length) : 0
   
   lastWeekAverageObj.value = {
     molar: lastWeekAllReadingsMolarAvg,
@@ -271,13 +267,13 @@ async function calculateTodoSummaries () {
     return (x.uom === 'mg/dL') ? (x.reading/17) : x.reading
   })
 
-  const allTimeAllReadingsMolarAvg = (allTimeAllReadingsMolar.reduce((a, b) => a + b, 0)/allTodos.value.length)
+  const allTimeAllReadingsMolarAvg = (allTodos.value.length > 0) ? (allTimeAllReadingsMolar.reduce((a, b) => a + b, 0)/allTodos.value.length) : 0
 
   const allTimeAllReadingsMass = allTodos.value.map(x=> {
     return (x.uom === 'mmol/L') ? (x.reading * 17) : x.reading
   })
 
-  const allTimeAllReadingsMassAvg = (allTimeAllReadingsMass.reduce((a, b) => a + b, 0)/allTodos.value.length)
+  const allTimeAllReadingsMassAvg = (allTodos.value.length > 0) ? (allTimeAllReadingsMass.reduce((a, b) => a + b, 0)/allTodos.value.length) : 0
 
   allTimeAverageObj.value = {
     molar: allTimeAllReadingsMolarAvg,
